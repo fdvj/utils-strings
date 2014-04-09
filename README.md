@@ -24,17 +24,18 @@ Returns the string with the first letter in uppercase.
 
 ```javascript
 var text = "john";
-text.capitalize() // returns "John"
-"doe".capitalize() // returns "Doe"
+text.capitalize(); // returns "John"
+"doe".capitalize(); // returns "Doe"
 ```
 
 ### camelcase
 
-Returns the string on camelcase format, meaning the first letter will be uppercase, spaces will be trimmed and the first letter after the space will be capitalized.
+Returns the string on camelcase format, meaning the first letter will be uppercase, spaces and underscores will be trimmed and the first letter after them will be capitalized.
 
 ```javascript
 var text = "john doe";
-text.camelcase() // returns "JohnDoe"
-"john doe".camelcase() // returns "JohnDoe"
+text.camelcase(); // returns "JohnDoe"
+"john doe".camelcase(); // returns "JohnDoe"
+"john_doe".camelcase(); // returns "JohnDoe"
 ```
 
