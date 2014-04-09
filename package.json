@@ -1,6 +1,6 @@
 {
   "name": "utils-strings",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "String utilities and methods for nodeJS",
   "main": "index.js",
   "scripts": {

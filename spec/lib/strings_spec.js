@@ -7,14 +7,16 @@ describe('String extensions', function(){
     it("should make the first letter of the string uppercase", function(){
       var sampleText = 'test';
       expect(sampleText.capitalize()).toBe('Test');
+      expect('test'.capitalize()).toBe('Test');
     });
   });
 
-  describe('#camelize', function(){
+  describe('#camelcase', function(){
 
     it("should camelcase text separated by spaces", function(){
       var sampleText = 'camelcase text';
-      expect(sampleText.camelize()).toBe('CamelcaseText');
+      expect(sampleText.camelcase()).toBe('CamelcaseText');
+      expect("camelcase text".camelcase()).toBe('CamelcaseText');
     });
 
   });
