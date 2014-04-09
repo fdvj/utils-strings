@@ -34,6 +34,6 @@ Returns the string on camelcase format, meaning the first letter will be upperca
 ```javascript
 var text = "john doe";
 text.camelcase() // returns "JohnDoe"
-"john doe".camelcase() // returns "Doe"
+"john doe".camelcase() // returns "JohnDoe"
 ```
 
