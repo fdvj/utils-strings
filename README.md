@@ -1,5 +1,6 @@
 utils-strings
 =============
+[![Build Status](https://travis-ci.org/fdvj/utils-strings.svg?branch=master)](https://travis-ci.org/fdvj/utils-strings)
 
 Library which provides additional methods for string types.  This is a work in progress, so additional methods will be added with time, including encryption methods. Right now I'm using it for personal projects, so once I create a new method, I'll add this to this library.
 
