@@ -1,1 +1,4 @@
-module.exports = require('./lib/strings');
+require('./lib/strings');
+require('./lib/encryption');
+
+debugger;

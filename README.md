@@ -13,7 +13,7 @@ To use the library, simply require the library. No need to assign it to a variab
 require('utils-strings');
 ```
 
-String Methods
+General Methods
 --------------
 
 This library contains several string methods, which are shown below
@@ -39,3 +39,5 @@ text.camelcase(); // returns "JohnDoe"
 "john_doe".camelcase(); // returns "JohnDoe"
 ```
 
+Encryption and Hashing
+----------------------
