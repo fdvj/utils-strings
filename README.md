@@ -64,7 +64,7 @@ text.sha3(384); // returns "199ea73dd4a7efc2731b98a528ef2..."
 text.sha3(512); // returns "50ad331798a9f12cfa74e52b3b496..."
 
 // With bit length and encoding as argument
-text.sha3(256, 'latin1); // returns "À.:ÁOfNû+¹¹X 4¨"·*ÜK0mê"
+text.sha3(256, 'latin1'); // returns "À.:ÁOfNû+¹¹X 4¨"·*ÜK0mê"
 text.sha3(256, 'base64'); // returns  "wC4QOsFPiQCSZk6T+yufgbm5WAk0qCKYtyrcSzCIbeo="
 text.sha3(256, 'hex'); // returns "c02e103ac14f890092664e93fb2b9..."
 ```
