@@ -114,10 +114,184 @@ describe("Hashing extensions", function(){
       var hash = 'Hi6fwgArAC11GYt1AyEMBaG6rEVgkWo8bZO8zjpQ1/AP05W/Fke5q7jRr8ycdsKJsMk4O6OGqVbaSziTRBd4ng==';
       expect('test'.sha3(512, 'base64')).toEqual(hash);
     });
+    it("should always return a string", function(){
+      var length = [224, 256, 384, 512];
+      var encoding = ['hex', 'latin1', 'base64'];
+      for (var bits in length) {
+        for (var format in encoding) {
+          expect(typeof 'test'.sha3(length[bits], encoding[format])).toBe('string');
+        }
+      }
+    });
+  });
+
+  describe('#md5', function(){
+    it("should run without parameters", function(){
+      var originalText = 'john doe';
+      expect(originalText.md5()).not.toBe(originalText);
+    });
+    it("should return the md5 hash of the given string", function(){
+      var hash = '098f6bcd4621d373cade4e832627b4f6';
+      expect('test'.md5()).toEqual(hash);
+    });
+    it("should return a string", function(){
+      expect(typeof 'test'.md5()).toBe('string');
+    });
   });
 
 });
 
 describe("Encryption extensions", function(){
+
+  describe('#decrypt', function(){
+    it("should at least receive a string argument", function(){
+      var failing = function() {
+        "U2FsdGVkX19ZQOKU3ERvBn+6lPS2tNb2h3JniVRiCLk=".decrypt();
+      };
+      var failing2 = function() {
+        "U2FsdGVkX19ZQOKU3ERvBn+6lPS2tNb2h3JniVRiCLk=".decrypt(2);
+      };
+      var passing = function() {
+        "U2FsdGVkX19ZQOKU3ERvBn+6lPS2tNb2h3JniVRiCLk=".decrypt('secret');
+      };
+      expect(failing).toThrow();
+      expect(failing2).toThrow();
+      expect(passing).not.toThrow();
+    });
+
+    it("if given, it should accept only a string as a second argument", function(){
+      var failing = function() {
+        "U2FsdGVkX19ZQOKU3ERvBn+6lPS2tNb2h3JniVRiCLk=".decrypt("test", 123);
+      };
+      var passing = function() {
+        "U2FsdGVkX19ZQOKU3ERvBn+6lPS2tNb2h3JniVRiCLk=".decrypt("test", "aes");
+      };
+
+      expect(failing).toThrow();
+      expect(passing).not.toThrow();
+    });
+
+    it("should only accept aes, tripledes, rabbit and rc4drop as ciphers", function(){
+      var passing = function() {
+        "U2FsdGVkX19ZQOKU3ERvBn+6lPS2tNb2h3JniVRiCLk=".decrypt('secret', 'aes');
+        "U2FsdGVkX18tvgUrkfbVeAD/H42Rd/XG".decrypt('secret', 'tripledes');
+        "U2FsdGVkX18KfAKW4sLOm6zpToY=".decrypt('secret', 'rabbit');
+        "U2FsdGVkX1/11Tv1mJhqsGQ08v8=".decrypt('secret', 'rc4drop');
+      };
+      var failing = function() {
+        'U2FsdGVkX19ZQOKU3ERvBn+6lPS2tNb2h3JniVRiCLk='.decrypt('secret', 'invalid');
+      };
+      expect(passing).not.toThrow();
+      expect(failing).toThrow();
+    });
+
+    it("should be able to decrypt AES encrypted strings", function(){
+      var encrypted = "U2FsdGVkX19ZQOKU3ERvBn+6lPS2tNb2h3JniVRiCLk=";
+      expect(encrypted.decrypt('secret', 'aes')).toBe('test');
+    });
+
+    it("should be able to decrypt TripleDES encrypted strings", function(){
+      var encrypted = "U2FsdGVkX18tvgUrkfbVeAD/H42Rd/XG";
+      expect(encrypted.decrypt('secret', 'tripledes')).toBe('test');
+    });
+
+    it("should be able to decrypt Rabbit encrypted strings", function(){
+      var encrypted = "U2FsdGVkX18KfAKW4sLOm6zpToY=";
+      expect(encrypted.decrypt('secret', 'rabbit')).toBe('test');
+    });
+
+    it("should be able to decrypt RC4Drop encrypted strings", function(){
+      var encrypted = "U2FsdGVkX1/11Tv1mJhqsGQ08v8=";
+      expect(encrypted.decrypt('secret', 'rc4drop')).toBe('test');
+    });
+
+    it("by default, it should decrypt using the AES algorithm and return the original in UTF-8 format", function(){
+      var encrypted = 'U2FsdGVkX19ZQOKU3ERvBn+6lPS2tNb2h3JniVRiCLk=';
+      expect(encrypted.decrypt('secret')).toBe('test');
+    });
+
+    it("if the wrong passphrase is given, it should return empty", function(){
+      var encrypted = 'U2FsdGVkX19ZQOKU3ERvBn+6lPS2tNb2h3JniVRiCLk=';
+      expect(encrypted.decrypt('invalid')).toBe('');
+    });
+
+    it("if decoded with the wrong cipher which it was encoded, it should return empty", function(){
+      var encrypted = 'U2FsdGVkX19ZQOKU3ERvBn+6lPS2tNb2h3JniVRiCLk=';
+      expect(encrypted.decrypt('secret', 'tripledes')).toBe('');
+      expect(encrypted.decrypt('secret', 'rabbit')).toBe('');
+      expect(encrypted.decrypt('secret', 'rc4drop')).toBe('');
+    });
+
+  });
+
+  describe('#encrypt', function(){
+    
+    it("should at least receive a string argument", function(){
+      var failing = function() {
+        "test".encrypt();
+      };
+      var failing2 = function() {
+        "test".encrypt(2);
+      };
+      var passing = function() {
+        "test".encrypt('secret');
+      };
+      expect(failing).toThrow();
+      expect(failing2).toThrow();
+      expect(passing).not.toThrow();
+    });
+
+    it("if given, it should accept only a string as a second argument", function(){
+      var failing = function() {
+        "test".encrypt("test", 123);
+      };
+      var passing = function() {
+        "test".encrypt("test", "aes");
+      };
+
+      expect(failing).toThrow();
+      expect(passing).not.toThrow();
+    });
+
+    it("should only accept aes, tripledes, rabbit and rc4drop as ciphers", function(){
+      var passing = function() {
+        "test".encrypt('secret', 'aes');
+        "test".encrypt('secret', 'tripledes');
+        "test".encrypt('secret', 'rabbit');
+        "test".encrypt('secret', 'rc4drop');
+      };
+      var failing = function() {
+        'test'.encrypt('secret', 'invalid');
+      };
+      expect(passing).not.toThrow();
+      expect(failing).toThrow();
+    });
+
+    it("by default, it should encrypt using the AES algorithm and return Base64 encoding", function(){
+      var encrypted = /^U2FsdGVkX1/;
+      expect(encrypted.test('test'.encrypt('secret'))).toBeTruthy();
+    });
+
+    it("should be able to encrypt using an AES algorithm", function(){
+      var encrypted = "john doe".encrypt('secret', 'aes');
+      expect(encrypted.decrypt('secret', 'aes')).toBe('john doe');
+    });
+
+    it("should be able to encrypt using a TripleDES algorithm", function(){
+      var encrypted = "john doe".encrypt('secret', 'tripledes');
+      expect(encrypted.decrypt('secret', 'tripledes')).toBe('john doe');
+    });
+
+    it("should be able to encrypt using a Rabbit algorithm", function(){
+      var encrypted = "john doe".encrypt('secret', 'rabbit');
+      expect(encrypted.decrypt('secret', 'rabbit')).toBe('john doe');
+    });
+
+    it("should be able to encrypt using the rc4drop algorithm", function(){
+      var encrypted = "john doe".encrypt('secret', 'rc4drop');
+      expect(encrypted.decrypt('secret', 'rc4drop')).toBe('john doe');
+    });
+  });
+
 
 });
