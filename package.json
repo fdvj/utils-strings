@@ -1,6 +1,6 @@
 {
   "name": "utils-strings",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "String utilities and methods for nodeJS",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,9 @@
   "keywords": [
     "string",
     "nodejs",
-    "utilities"
+    "utilities",
+    "encryption",
+    "decription"
   ],
   "author": "Fernando De Vega",
   "license": "MIT",
