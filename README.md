@@ -2,8 +2,39 @@ utils-strings
 =============
 [![Build Status](https://travis-ci.org/fdvj/utils-strings.svg?branch=master)](https://travis-ci.org/fdvj/utils-strings)
 
-Library which provides additional methods for string types.  This is a work in progress, so additional methods will be added with time, including encryption methods. Right now I'm using it for personal projects, so once I create a new method, I'll add this to this library.
+This library extends the available methods in strings. It is a collection of utilities. The idea is to provide simple modifiers to strings that replace separate helper functions we usually write to provide the same functionality. So, instead of writing for example a capitalize function, you can simply use the extended capitalize method available in the string:
 
+Example
+-------
+
+Instead of doing this:
+
+```javascript
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+var myString = 'john';
+capitalize(myString);
+// returns 'John'
+```
+
+you can simply do this
+
+```javascript
+'john'.capitalize();
+// returns 'John'
+```
+
+And it gets more useful when complex modifiers are needed, for example encrypting a string. Again, it will simply be a matter of calling the extended encrypt method:
+
+```javascript
+'john doe'.encrypt('secret keyphrase');
+// returns 'nCL/XyHwuBsRPmP3222pT+3vEbIRm0CIuJZk+5o8tlg='
+
+'nCL/XyHwuBsRPmP3222pT+3vEbIRm0CIuJZk+5o8tlg='.decrypt('secret keyphrase');
+// returns 'john doe'
+```
 Usage
 -----
 
@@ -18,7 +49,7 @@ General Methods
 
 This library contains several string methods, which are shown below
 
-### capitalize()
+#### capitalize()
 
 Returns the string with the first letter in uppercase.
 
@@ -28,7 +59,7 @@ text.capitalize(); // returns "John"
 "doe".capitalize(); // returns "Doe"
 ```
 
-### camelcase()
+#### camelcase()
 
 Returns the string on camelcase format, meaning the first letter will be uppercase, spaces and underscores will be trimmed and the first letter after them will be capitalized.
 
